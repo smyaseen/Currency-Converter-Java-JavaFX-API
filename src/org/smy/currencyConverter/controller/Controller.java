@@ -4,8 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.image.ImageView;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -53,15 +51,27 @@ public class Controller {
 
         convertTo.getSelectionModel().select(convertToString);
 
+        try {
         convert();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    public void convert() {
-        rate.setText("" + getRate(
+    public void convert() throws Exception {
+
+        double exchangeRate = getRate(
                 convertFrom.getSelectionModel().getSelectedItem(),
                 convertTo.getSelectionModel().getSelectedItem()
-                )*amount.getValue());
+        );
+
+        if (exchangeRate >= 0)
+            rate.setText("" + exchangeRate*amount.getValue());
+
+        else
+            throw new Exception("getRate() error");
+
     }
 
     private double getRate(String from, String to) {
@@ -79,9 +89,9 @@ public class Controller {
                 throw new RuntimeException("" + responsecode);
             } else {
                 Scanner sc = new Scanner(url.openStream());
-                String inline = "";
+                StringBuilder inline = new StringBuilder();
                 while (sc.hasNext()) {
-                    inline += sc.nextLine();
+                    inline.append(sc.nextLine());
                 }
 
                 String exchangeRateString = inline.substring(inline.indexOf(":") + 1, inline.indexOf("}"));
