@@ -243,7 +243,7 @@ public class Controller {
     private double getRate(String from, String to) {
         try {
             // get free api from https://free.currencyconverterapi.com/
-            URL url = new URL("https://free.currconv.com/api/v7/convert?q=" + from + "_" + to + "&compact=ultra&apiKey=a5788cc2decba3992574");
+            URL url = new URL("You api");
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
             conn.setRequestMethod("GET");
             conn.connect();
