@@ -8,6 +8,7 @@ import javafx.scene.control.Spinner;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Controller {
@@ -194,6 +195,8 @@ public class Controller {
         currencyList.add("XAG");
         currencyList.add("ZWL");
 
+        Collections.sort(currencyList);
+
         convertFrom.getItems().addAll(currencyList);
         convertTo.getItems().addAll(currencyList);
 
@@ -243,7 +246,7 @@ public class Controller {
     private double getRate(String from, String to) {
         try {
             // get free api from https://free.currencyconverterapi.com/
-            URL url = new URL("You api");
+            URL url = new URL("Your api");
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
             conn.setRequestMethod("GET");
             conn.connect();
